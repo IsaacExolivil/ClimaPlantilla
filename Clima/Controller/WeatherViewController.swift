@@ -1,23 +1,40 @@
-//
-//  ViewController.swift
-//  Clima
-//
-//  Created isaac 28/01/2022
-//
-
 import UIKit
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var SearchTextField: UITextField!
+    
+    var weatherManager =  WeatherManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        SearchTextField.delegate = self
+        
     }
 
-
+    @IBAction func SearchPressed(_ sender: UIButton) {
+        SearchTextField.endEditing(true)
+        print(SearchTextField.text!)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        SearchTextField.endEditing(true)
+        print(SearchTextField.text!)
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let city = SearchTextField.text {
+            weatherManager.fetchWeather(cityName: city)
+        }
+        SearchTextField.text = ""
+    }
+    
+    
 }
+
+
 
